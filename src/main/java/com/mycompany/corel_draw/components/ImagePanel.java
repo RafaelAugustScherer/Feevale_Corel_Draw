@@ -38,7 +38,6 @@ public class ImagePanel extends JPanel {
         super.paintComponent(g);
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        System.out.printf("%d, %d\n", this.getWidth(), this.getHeight());
         if (image != null) {
             if (image.getWidth() > image.getHeight()) {
                 int proportionalHeight = Math.round(getWidth() / (image.getWidth() / image.getHeight()));

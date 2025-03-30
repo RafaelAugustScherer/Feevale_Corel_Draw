@@ -7,7 +7,14 @@ package com.mycompany.corel_draw;
 import view.SelectFile;
 import domain.Transform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import utilities.BufferedImageUtils;
+import view.SaveFile;
 import view.SelectOptions;
 
 /**
@@ -36,6 +43,7 @@ public class MainScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         inputLabel = new javax.swing.JLabel();
         inputImagePanel = new com.mycompany.corel_draw.components.ImagePanel();
         outputLabel = new javax.swing.JLabel();
@@ -115,6 +123,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         saveImageItem.setMnemonic('s');
         saveImageItem.setText("Salvar Imagem");
+        saveImageItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveImageItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveImageItem);
 
         AboutItem.setMnemonic('a');
@@ -146,6 +159,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         rotateMenuItem.setMnemonic('y');
         rotateMenuItem.setText("Rotacionar");
+        rotateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rotateMenuItemActionPerformed(evt);
+            }
+        });
         GeometricTransformationMenu.add(rotateMenuItem);
 
         mirrorMenuItem.setMnemonic('p');
@@ -267,16 +285,41 @@ public class MainScreen extends javax.swing.JFrame {
         if (inputImagePanel.image != null) {
             SelectOptions optionsSelector = new SelectOptions("Transladar");
             
+            optionsSelector.xPanel.setVisible(true);
+            optionsSelector.yPanel.setVisible(true);
+            
             optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
-                int[] startPosition = {0, 0};
                 int[] desiredPosition = {optionsSelector.xSlider.getValue(), optionsSelector.ySlider.getValue()};
-                BufferedImage result = Transform.translate(inputImagePanel.image, startPosition, desiredPosition);
+                BufferedImage result = Transform.translate(inputImagePanel.image, desiredPosition);
             
                 outputImagePanel.setImage(result);
             });
             optionsSelector.setVisible(true);
         }
     }//GEN-LAST:event_translateMenuItemActionPerformed
+
+    private void rotateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotateMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            SelectOptions optionsSelector = new SelectOptions("Rotacionar");
+            
+            optionsSelector.degreesPanel.setVisible(true);
+            
+            optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
+                BufferedImage result = Transform.rotate(inputImagePanel.image, optionsSelector.degreesSlider.getValue());
+                outputImagePanel.setImage(result);
+            });
+            optionsSelector.setVisible(true);
+        }
+    }//GEN-LAST:event_rotateMenuItemActionPerformed
+
+    private void saveImageItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImageItemActionPerformed
+        if (outputImagePanel.image != null) {
+            SaveFile saveFile = new SaveFile(outputImagePanel.image);
+            saveFile.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Realize uma operação antes de salvar a imagem.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_saveImageItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,6 +373,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem increaseMenuItem;
     private com.mycompany.corel_draw.components.ImagePanel inputImagePanel;
     private javax.swing.JLabel inputLabel;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JMenuItem lowPassMenuItem;
     private javax.swing.JMenu mathMorfologyMenu;
     private javax.swing.JMenuBar menuBar;

@@ -20,6 +20,10 @@ public class SelectOptions extends javax.swing.JFrame {
     public SelectOptions(String title) {
         initComponents();
         this.frameTitle.setText(title);
+        
+        this.xPanel.setVisible(false);
+        this.yPanel.setVisible(false);
+        this.degreesPanel.setVisible(false);
     }
     
     public void addEventListener(ActionListener actionListener) {
@@ -46,6 +50,10 @@ public class SelectOptions extends javax.swing.JFrame {
         yValueLabel = new javax.swing.JLabel();
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        degreesPanel = new javax.swing.JPanel();
+        degreesSlider = new javax.swing.JSlider();
+        degreesLabel = new javax.swing.JLabel();
+        degreesValueLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,14 +107,30 @@ public class SelectOptions extends javax.swing.JFrame {
             }
         });
 
+        degreesPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        degreesSlider.setMaximum(359);
+        degreesSlider.setMinimum(1);
+        degreesSlider.setPaintLabels(true);
+        degreesSlider.setPaintTicks(true);
+        degreesSlider.setValue(45);
+        degreesSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                degreesSliderStateChanged(evt);
+            }
+        });
+        degreesPanel.add(degreesSlider, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 28, -1, -1));
+
+        degreesLabel.setText("Ângulo de Rotação");
+        degreesPanel.add(degreesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        degreesValueLabel.setText(String.format("%d", this.degreesSlider.getValue()));
+        degreesPanel.add(degreesValueLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 29, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(163, 163, 163)
-                .addComponent(frameTitle)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -121,6 +145,15 @@ public class SelectOptions extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(cancelButton)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(163, 163, 163)
+                        .addComponent(frameTitle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(degreesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,7 +164,9 @@ public class SelectOptions extends javax.swing.JFrame {
                 .addComponent(xPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(yPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(degreesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
                     .addComponent(cancelButton))
@@ -158,16 +193,24 @@ public class SelectOptions extends javax.swing.JFrame {
         this.yValueLabel.setText(String.format("%d", ySlider.getValue()));
     }//GEN-LAST:event_ySliderStateChanged
 
+    private void degreesSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_degreesSliderStateChanged
+        this.degreesValueLabel.setText(String.format("%d", degreesSlider.getValue()));
+    }//GEN-LAST:event_degreesSliderStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel degreesLabel;
+    public javax.swing.JPanel degreesPanel;
+    public javax.swing.JSlider degreesSlider;
+    private javax.swing.JLabel degreesValueLabel;
     private javax.swing.JLabel frameTitle;
     private javax.swing.JButton okButton;
     private javax.swing.JLabel xLabel;
-    private javax.swing.JPanel xPanel;
+    public javax.swing.JPanel xPanel;
     public javax.swing.JSlider xSlider;
     private javax.swing.JLabel xValueLabel;
     private javax.swing.JLabel yLabel;
-    private javax.swing.JPanel yPanel;
+    public javax.swing.JPanel yPanel;
     public javax.swing.JSlider ySlider;
     private javax.swing.JLabel yValueLabel;
     // End of variables declaration//GEN-END:variables
