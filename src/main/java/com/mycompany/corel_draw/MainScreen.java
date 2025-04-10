@@ -6,13 +6,10 @@ package com.mycompany.corel_draw;
 
 import view.SelectFile;
 import domain.Transform;
+import domain.Filter;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import types.Orientation;
 import utilities.BufferedImageUtils;
 import view.SaveFile;
 import view.SelectOptions;
@@ -168,6 +165,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         mirrorMenuItem.setMnemonic('p');
         mirrorMenuItem.setText("Espelhar");
+        mirrorMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mirrorMenuItemActionPerformed(evt);
+            }
+        });
         GeometricTransformationMenu.add(mirrorMenuItem);
 
         increaseMenuItem.setMnemonic('d');
@@ -190,6 +192,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         grayscaleMenuItem.setMnemonic('c');
         grayscaleMenuItem.setText("Grayscale");
+        grayscaleMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                grayscaleMenuItemActionPerformed(evt);
+            }
+        });
         filtersMenu.add(grayscaleMenuItem);
 
         lowPassMenuItem.setMnemonic('a');
@@ -320,6 +327,49 @@ public class MainScreen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Realize uma operação antes de salvar a imagem.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_saveImageItemActionPerformed
+
+    private void mirrorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mirrorMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            SelectOptions optionsSelector = new SelectOptions("Espelhar");
+            
+            optionsSelector.choicesPanel.setVisible(true);
+            optionsSelector.choicesLabel.setText("Orientação:");
+            
+            for (Orientation orientation: Orientation.values()) {
+                optionsSelector.choices.addItem(orientation.label);
+            }
+
+            optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
+                BufferedImage result = Transform.mirror(
+                        inputImagePanel.image,
+                        Orientation.fromString(optionsSelector.choices.getSelectedItem())
+                );
+                outputImagePanel.setImage(result);
+            });
+            optionsSelector.setVisible(true);
+        }
+    }//GEN-LAST:event_mirrorMenuItemActionPerformed
+
+    private void grayscaleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grayscaleMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            SelectOptions optionsSelector = new SelectOptions("Grayscale");
+            
+            optionsSelector.rPanel.setVisible(true);
+            optionsSelector.gPanel.setVisible(true);
+            optionsSelector.bPanel.setVisible(true);
+
+            optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
+                BufferedImage result = Filter.grayScale(
+                        inputImagePanel.image,
+                        optionsSelector.getPercentageValue(optionsSelector.rSlider),
+                        optionsSelector.getPercentageValue(optionsSelector.gSlider),
+                        optionsSelector.getPercentageValue(optionsSelector.bSlider)
+                );
+                outputImagePanel.setImage(result);
+            });
+            optionsSelector.setVisible(true);
+        }
+    }//GEN-LAST:event_grayscaleMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
