@@ -201,6 +201,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         lowPassMenuItem.setMnemonic('a');
         lowPassMenuItem.setText("Passa Baixa");
+        lowPassMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lowPassMenuItemActionPerformed(evt);
+            }
+        });
         filtersMenu.add(lowPassMenuItem);
 
         highPassMenuItem.setMnemonic('a');
@@ -370,6 +375,13 @@ public class MainScreen extends javax.swing.JFrame {
             optionsSelector.setVisible(true);
         }
     }//GEN-LAST:event_grayscaleMenuItemActionPerformed
+
+    private void lowPassMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowPassMenuItemActionPerformed
+         if (inputImagePanel.image != null) {
+            BufferedImage result = Filter.GaussianLowPass(inputImagePanel.image);
+            outputImagePanel.setImage(result);
+        }
+    }//GEN-LAST:event_lowPassMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
