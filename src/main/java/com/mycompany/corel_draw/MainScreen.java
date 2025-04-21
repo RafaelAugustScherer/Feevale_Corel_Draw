@@ -25,6 +25,18 @@ public class MainScreen extends javax.swing.JFrame {
      */
     public MainScreen() {
         initComponents();
+        
+        this.inputImagePanel.addEventListener((java.awt.event.ActionEvent evt) -> {
+            if (evt.getActionCommand().equals("IMAGE_SET")) {
+                inputImageSizeLabel.setText(String.format("Tamanho da imagem original: %d x %d", this.inputImagePanel.image.getWidth(), this.inputImagePanel.image.getHeight()));
+            }
+        });
+        
+        this.outputImagePanel.addEventListener((java.awt.event.ActionEvent evt) -> {
+            if (evt.getActionCommand().equals("IMAGE_SET")) {
+                outputImageSizeLabel.setText(String.format("Tamanho da imagem nova: %d x %d", this.outputImagePanel.image.getWidth(), this.outputImagePanel.image.getHeight()));
+            }
+        });
  
          BufferedImage defaultImage = BufferedImageUtils.defaultImage();
          this.inputImagePanel.setImage(defaultImage);
@@ -45,6 +57,8 @@ public class MainScreen extends javax.swing.JFrame {
         inputImagePanel = new com.mycompany.corel_draw.components.ImagePanel();
         outputLabel = new javax.swing.JLabel();
         outputImagePanel = new com.mycompany.corel_draw.components.ImagePanel();
+        inputImageSizeLabel = new javax.swing.JLabel();
+        outputImageSizeLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openImageItem = new javax.swing.JMenuItem();
@@ -87,7 +101,7 @@ public class MainScreen extends javax.swing.JFrame {
         );
         inputImagePanelLayout.setVerticalGroup(
             inputImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 376, Short.MAX_VALUE)
         );
 
         outputLabel.setText("Output");
@@ -103,8 +117,12 @@ public class MainScreen extends javax.swing.JFrame {
         );
         outputImagePanelLayout.setVerticalGroup(
             outputImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 348, Short.MAX_VALUE)
+            .addGap(0, 376, Short.MAX_VALUE)
         );
+
+        inputImageSizeLabel.setText("Tamanho da imagem original: ");
+
+        outputImageSizeLabel.setText("Tamanho da imagem nova: ");
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("ARQUIVO");
@@ -174,6 +192,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         increaseMenuItem.setMnemonic('d');
         increaseMenuItem.setText("Aumentar");
+        increaseMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                increaseMenuItemActionPerformed(evt);
+            }
+        });
         GeometricTransformationMenu.add(increaseMenuItem);
 
         decreaseMenuItem.setMnemonic('d');
@@ -258,6 +281,12 @@ public class MainScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 468, Short.MAX_VALUE)
                 .addComponent(outputLabel)
                 .addGap(246, 246, 246))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(142, 142, 142)
+                .addComponent(inputImageSizeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(outputImageSizeLabel)
+                .addGap(176, 176, 176))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,9 +297,13 @@ public class MainScreen extends javax.swing.JFrame {
                     .addComponent(outputLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(outputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(480, Short.MAX_VALUE))
+                    .addComponent(outputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                    .addComponent(inputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inputImageSizeLabel)
+                    .addComponent(outputImageSizeLabel))
+                .addContainerGap(430, Short.MAX_VALUE))
         );
 
         pack();
@@ -290,7 +323,10 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_openImageItemActionPerformed
 
     private void decreaseMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decreaseMenuItemActionPerformed
-        // TODO add your handling code here:
+        if (inputImagePanel.image != null) {
+            BufferedImage result = Transform.reduce(inputImagePanel.image, 2);
+            outputImagePanel.setImage(result);
+        }
     }//GEN-LAST:event_decreaseMenuItemActionPerformed
 
     private void translateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_translateMenuItemActionPerformed
@@ -383,6 +419,13 @@ public class MainScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lowPassMenuItemActionPerformed
 
+    private void increaseMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_increaseMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            BufferedImage result = Transform.augment(inputImagePanel.image, 2);
+            outputImagePanel.setImage(result);
+        }
+    }//GEN-LAST:event_increaseMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -434,6 +477,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem highPassMenuItem;
     private javax.swing.JMenuItem increaseMenuItem;
     private com.mycompany.corel_draw.components.ImagePanel inputImagePanel;
+    private javax.swing.JLabel inputImageSizeLabel;
     private javax.swing.JLabel inputLabel;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JMenuItem lowPassMenuItem;
@@ -443,6 +487,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem openImageItem;
     private javax.swing.JMenuItem openingMenuItem;
     private com.mycompany.corel_draw.components.ImagePanel outputImagePanel;
+    private javax.swing.JLabel outputImageSizeLabel;
     private javax.swing.JLabel outputLabel;
     private javax.swing.JMenuItem rotateMenuItem;
     private javax.swing.JMenuItem saveImageItem;

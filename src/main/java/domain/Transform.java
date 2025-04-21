@@ -5,6 +5,7 @@
 package domain;
 
 import java.awt.image.BufferedImage;
+
 import types.Orientation;
 import utilities.BufferedImageUtils;
 
@@ -13,11 +14,10 @@ import utilities.BufferedImageUtils;
  * @author Rafael
  */
 public class Transform {
-     public static BufferedImage translate(BufferedImage image, int[] desiredPosition) {
+    public static BufferedImage translate(BufferedImage image, int[] desiredPosition) {
         BufferedImage newImage = BufferedImageUtils.createBlankImage(
                 image.getWidth() + desiredPosition[0],
-                image.getHeight() + desiredPosition[1]
-        );
+                image.getHeight() + desiredPosition[1]);
 
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
@@ -44,7 +44,7 @@ public class Transform {
         int newHeight = (int) Math.ceil(Math.abs(width * sin) + Math.abs(height * cos));
 
         BufferedImage newImage = BufferedImageUtils.createBlankImage(newWidth, newHeight);
-    
+
         int centerX = width / 2;
         int centerY = height / 2;
         int newCenterX = newWidth / 2;
@@ -66,20 +66,20 @@ public class Transform {
 
         return newImage;
     }
-    
+
     public static BufferedImage mirror(BufferedImage image, Orientation orientation) {
         BufferedImage newImage = BufferedImageUtils.createBlankImage(image.getWidth(), image.getHeight());
-        
+
         int imageBorderX = image.getWidth() - 1;
         int imageBorderY = image.getHeight() - 1;
-        
+
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
                 int pixelColor = image.getRGB(x, y);
-                
+
                 int xPosition = x;
                 int yPosition = y;
-                
+
                 if (orientation == Orientation.HORIZONTAL) {
                     xPosition = imageBorderX - x;
                 } else if (orientation == Orientation.VERTICAL) {
@@ -87,6 +87,65 @@ public class Transform {
                 }
 
                 newImage.setRGB(xPosition, yPosition, pixelColor);
+            }
+        }
+
+        return newImage;
+    }
+
+    public static BufferedImage augment(BufferedImage image, int times) {
+        BufferedImage newImage = BufferedImageUtils.createBlankImage(
+                image.getWidth() * times,
+                image.getHeight() * times);
+
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                int pixelColor = image.getRGB(x, y);
+
+                for (int fillX = 0; fillX < times; fillX++) {
+                    for (int fillY = 0; fillY < times; fillY++) {
+                        int newX = x * times + fillX;
+                        int newY = y * times + fillY;
+                        newImage.setRGB(newX, newY, pixelColor);
+                    }
+                }
+            }
+        }
+
+        return newImage;
+    }
+
+    public static BufferedImage reduce(BufferedImage image, int times) {
+        int newWidth = image.getWidth() / times;
+        int newHeight = image.getHeight() / times;
+
+        BufferedImage newImage = BufferedImageUtils.createBlankImage(newWidth, newHeight);
+
+        for (int newX = 0; newX < newWidth; newX++) {
+            for (int newY = 0; newY < newHeight; newY++) {
+                int redSum = 0, greenSum = 0, blueSum = 0;
+
+                for (int blockX = 0; blockX < times; blockX++) {
+                    for (int blockY = 0; blockY < times; blockY++) {
+                        int x = newX * times + blockX;
+                        int y = newY * times + blockY;
+
+                        int pixel = image.getRGB(x, y);
+
+                        redSum += (pixel >> 16) & 0xFF;
+                        greenSum += (pixel >> 8) & 0xFF;
+                        blueSum += pixel & 0xFF;
+                    }
+                }
+
+                int pixelsInBlock = times * times;
+                int red = redSum / pixelsInBlock;
+                int green = greenSum / pixelsInBlock;
+                int blue = blueSum / pixelsInBlock;
+
+                int pixelColor = (0xFF << 24) | (red << 16) | (green << 8) | blue;
+
+                newImage.setRGB(newX, newY, pixelColor);
             }
         }
 
