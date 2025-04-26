@@ -334,11 +334,11 @@ public class SelectOptions extends javax.swing.JFrame {
     public javax.swing.JSlider gSlider;
     private javax.swing.JLabel gValueLabel;
     private javax.swing.JButton okButton;
-    private javax.swing.JLabel rLabel;
+    public javax.swing.JLabel rLabel;
     public javax.swing.JPanel rPanel;
     public javax.swing.JSlider rSlider;
     private javax.swing.JLabel rValueLabel;
-    private javax.swing.JLabel xLabel;
+    public javax.swing.JLabel xLabel;
     public javax.swing.JPanel xPanel;
     public javax.swing.JSlider xSlider;
     private javax.swing.JLabel xValueLabel;

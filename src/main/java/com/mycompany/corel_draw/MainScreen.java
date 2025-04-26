@@ -233,9 +233,19 @@ public class MainScreen extends javax.swing.JFrame {
 
         highPassMenuItem.setMnemonic('a');
         highPassMenuItem.setText("Passa Alta");
+        highPassMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                highPassMenuItemActionPerformed(evt);
+            }
+        });
         filtersMenu.add(highPassMenuItem);
 
         thresholdMenuItem.setText("Threshold");
+        thresholdMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                thresholdMenuItemActionPerformed(evt);
+            }
+        });
         filtersMenu.add(thresholdMenuItem);
 
         menuBar.add(filtersMenu);
@@ -425,6 +435,48 @@ public class MainScreen extends javax.swing.JFrame {
             outputImagePanel.setImage(result);
         }
     }//GEN-LAST:event_increaseMenuItemActionPerformed
+
+    private void highPassMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highPassMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            SelectOptions optionsSelector = new SelectOptions("Passa Alta");
+            
+            optionsSelector.xLabel.setText("Limite da borda");
+            optionsSelector.xSlider.setMinimum(5);
+            optionsSelector.xSlider.setMaximum(100);
+            optionsSelector.xSlider.setValue(20);
+            optionsSelector.xPanel.setVisible(true);
+            
+            optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
+                BufferedImage result = Filter.RobertsHighPass(
+                        inputImagePanel.image,
+                        optionsSelector.rSlider.getValue()
+                );
+                outputImagePanel.setImage(result);
+            });
+            optionsSelector.setVisible(true);
+        }
+    }//GEN-LAST:event_highPassMenuItemActionPerformed
+
+    private void thresholdMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thresholdMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            SelectOptions optionsSelector = new SelectOptions("Threshold");
+            
+            optionsSelector.xLabel.setText("Limite da borda");
+            optionsSelector.xSlider.setMinimum(100);
+            optionsSelector.xSlider.setMaximum(300);
+            optionsSelector.xSlider.setValue(200);
+            optionsSelector.xPanel.setVisible(true);
+            
+            optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
+                BufferedImage result = Filter.RobertsHighPass(
+                        inputImagePanel.image,
+                        optionsSelector.rSlider.getValue()
+                );
+                outputImagePanel.setImage(result);
+            });
+            optionsSelector.setVisible(true);
+        }
+    }//GEN-LAST:event_thresholdMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
