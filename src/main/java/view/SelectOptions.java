@@ -293,26 +293,32 @@ public class SelectOptions extends javax.swing.JFrame {
 
     private void xSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_xSliderStateChanged
         this.xValueLabel.setText(String.format("%d", xSlider.getValue()));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_xSliderStateChanged
 
     private void ySliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ySliderStateChanged
         this.yValueLabel.setText(String.format("%d", ySlider.getValue()));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_ySliderStateChanged
 
     private void degreesSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_degreesSliderStateChanged
         this.degreesValueLabel.setText(String.format("%d", degreesSlider.getValue()));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_degreesSliderStateChanged
 
     private void rSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rSliderStateChanged
         this.rValueLabel.setText(String.format("%.2f", getPercentageValue(rSlider)));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_rSliderStateChanged
 
     private void gSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gSliderStateChanged
         this.gValueLabel.setText(String.format("%.2f", getPercentageValue(gSlider)));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_gSliderStateChanged
 
     private void bSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_bSliderStateChanged
         this.bValueLabel.setText(String.format("%.2f", getPercentageValue(bSlider)));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_bSliderStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
