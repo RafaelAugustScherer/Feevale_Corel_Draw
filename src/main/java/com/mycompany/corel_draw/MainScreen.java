@@ -13,6 +13,7 @@ import types.Orientation;
 import utilities.BufferedImageUtils;
 import view.SaveFile;
 import view.SelectOptions;
+import morphology.Mathematic_Erosion;
 
 /**
  *
@@ -243,9 +244,19 @@ public class MainScreen extends javax.swing.JFrame {
         mathMorfologyMenu.setText("MORFOLOGIA MATEMÁTICA");
 
         dilatationMenuItem.setText("Dilatação");
+        dilatationMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dilatationMenuItemActionPerformed(evt);
+            }
+        });
         mathMorfologyMenu.add(dilatationMenuItem);
 
         erosionMenuItem.setText("Erosão");
+        erosionMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                erosionMenuItemActionPerformed(evt);
+            }
+        });
         mathMorfologyMenu.add(erosionMenuItem);
 
         openingMenuItem.setText("Abertura");
@@ -425,6 +436,17 @@ public class MainScreen extends javax.swing.JFrame {
             outputImagePanel.setImage(result);
         }
     }//GEN-LAST:event_increaseMenuItemActionPerformed
+
+    private void dilatationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dilatationMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dilatationMenuItemActionPerformed
+
+    private void erosionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_erosionMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            BufferedImage result = Mathematic_Erosion.erosion(inputImagePanel.image, 30);
+            outputImagePanel.setImage(result);
+        }
+    }//GEN-LAST:event_erosionMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
