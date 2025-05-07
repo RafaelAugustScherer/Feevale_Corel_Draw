@@ -293,26 +293,32 @@ public class SelectOptions extends javax.swing.JFrame {
 
     private void xSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_xSliderStateChanged
         this.xValueLabel.setText(String.format("%d", xSlider.getValue()));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_xSliderStateChanged
 
     private void ySliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ySliderStateChanged
         this.yValueLabel.setText(String.format("%d", ySlider.getValue()));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_ySliderStateChanged
 
     private void degreesSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_degreesSliderStateChanged
         this.degreesValueLabel.setText(String.format("%d", degreesSlider.getValue()));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_degreesSliderStateChanged
 
     private void rSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rSliderStateChanged
         this.rValueLabel.setText(String.format("%.2f", getPercentageValue(rSlider)));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_rSliderStateChanged
 
     private void gSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gSliderStateChanged
         this.gValueLabel.setText(String.format("%.2f", getPercentageValue(gSlider)));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_gSliderStateChanged
 
     private void bSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_bSliderStateChanged
         this.bValueLabel.setText(String.format("%.2f", getPercentageValue(bSlider)));
+        this.eventListener.actionPerformed(null);
     }//GEN-LAST:event_bSliderStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -334,11 +340,11 @@ public class SelectOptions extends javax.swing.JFrame {
     public javax.swing.JSlider gSlider;
     private javax.swing.JLabel gValueLabel;
     private javax.swing.JButton okButton;
-    private javax.swing.JLabel rLabel;
+    public javax.swing.JLabel rLabel;
     public javax.swing.JPanel rPanel;
     public javax.swing.JSlider rSlider;
     private javax.swing.JLabel rValueLabel;
-    private javax.swing.JLabel xLabel;
+    public javax.swing.JLabel xLabel;
     public javax.swing.JPanel xPanel;
     public javax.swing.JSlider xSlider;
     private javax.swing.JLabel xValueLabel;
