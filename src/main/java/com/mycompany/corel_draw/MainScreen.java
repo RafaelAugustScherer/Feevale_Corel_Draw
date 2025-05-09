@@ -13,7 +13,7 @@ import types.Orientation;
 import utilities.BufferedImageUtils;
 import view.SaveFile;
 import view.SelectOptions;
-import morphology.Mathematic_Erosion;
+import domain.Mathematic_Erosion;
 
 /**
  *
@@ -438,12 +438,15 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_increaseMenuItemActionPerformed
 
     private void dilatationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dilatationMenuItemActionPerformed
-        // TODO add your handling code here:
+        if (inputImagePanel.image != null) {
+            BufferedImage result = Mathematic_Erosion.dilation(inputImagePanel.image);
+            outputImagePanel.setImage(result);
+        }
     }//GEN-LAST:event_dilatationMenuItemActionPerformed
 
     private void erosionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_erosionMenuItemActionPerformed
         if (inputImagePanel.image != null) {
-            BufferedImage result = Mathematic_Erosion.erosion(inputImagePanel.image, 30);
+            BufferedImage result = Mathematic_Erosion.erosion(inputImagePanel.image, 100);
             outputImagePanel.setImage(result);
         }
     }//GEN-LAST:event_erosionMenuItemActionPerformed
