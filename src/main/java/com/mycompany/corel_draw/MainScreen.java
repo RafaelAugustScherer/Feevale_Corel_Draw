@@ -4,11 +4,13 @@
  */
 package com.mycompany.corel_draw;
 
+import domain.Challenge;
 import view.SelectFile;
 import domain.Transform;
 import domain.Filter;
 import java.awt.image.BufferedImage;
 import javax.swing.JOptionPane;
+import types.ChallengeResult;
 import types.Orientation;
 import utilities.BufferedImageUtils;
 import view.SaveFile;
@@ -40,6 +42,7 @@ public class MainScreen extends javax.swing.JFrame {
  
          BufferedImage defaultImage = BufferedImageUtils.defaultImage();
          this.inputImagePanel.setImage(defaultImage);
+         // Challenge.execute(this.inputImagePanel.image);
     }
     
 
@@ -97,11 +100,11 @@ public class MainScreen extends javax.swing.JFrame {
         inputImagePanel.setLayout(inputImagePanelLayout);
         inputImagePanelLayout.setHorizontalGroup(
             inputImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 488, Short.MAX_VALUE)
+            .addGap(0, 416, Short.MAX_VALUE)
         );
         inputImagePanelLayout.setVerticalGroup(
             inputImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGap(0, 388, Short.MAX_VALUE)
         );
 
         outputLabel.setText("Output");
@@ -117,7 +120,7 @@ public class MainScreen extends javax.swing.JFrame {
         );
         outputImagePanelLayout.setVerticalGroup(
             outputImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         inputImageSizeLabel.setText("Tamanho da imagem original: ");
@@ -269,6 +272,11 @@ public class MainScreen extends javax.swing.JFrame {
         characteristicsExtractionMenu.setText("EXTRAÇÃO DE CARACTERÍSTICAS");
 
         challengeMenuItem.setText("DESAFIO");
+        challengeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                challengeMenuItemActionPerformed(evt);
+            }
+        });
         characteristicsExtractionMenu.add(challengeMenuItem);
 
         menuBar.add(characteristicsExtractionMenu);
@@ -281,9 +289,9 @@ public class MainScreen extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(inputImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(outputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+                .addComponent(inputImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78)
+                .addComponent(outputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(220, 220, 220)
@@ -292,11 +300,11 @@ public class MainScreen extends javax.swing.JFrame {
                 .addComponent(outputLabel)
                 .addGap(246, 246, 246))
             .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
+                .addGap(154, 154, 154)
                 .addComponent(inputImageSizeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(outputImageSizeLabel)
-                .addGap(176, 176, 176))
+                .addGap(203, 203, 203))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,13 +315,13 @@ public class MainScreen extends javax.swing.JFrame {
                     .addComponent(outputLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(outputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                    .addComponent(inputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
+                    .addComponent(inputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                    .addComponent(outputImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inputImageSizeLabel)
                     .addComponent(outputImageSizeLabel))
-                .addContainerGap(430, Short.MAX_VALUE))
+                .addContainerGap(418, Short.MAX_VALUE))
         );
 
         pack();
@@ -476,6 +484,23 @@ public class MainScreen extends javax.swing.JFrame {
             optionsSelector.setVisible(true);
         }
     }//GEN-LAST:event_thresholdMenuItemActionPerformed
+
+    private void challengeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_challengeMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            ChallengeResult result = Challenge.execute(inputImagePanel.image);
+            
+            outputImagePanel.setImage(result.image);
+            JOptionPane.showMessageDialog(
+                this,
+                String.format(
+                    "Total de comprimidos: %d\nTotal de comprimidos redondos: %d\nTotal de comprimidos em cápsula: %d\nComprimidos Quebrados: %d",
+                    result.totalPills, result.totalRoundPills, result.totalCapsulePills, result.brokenPills
+                ),
+                "Resultado da Imagem",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_challengeMenuItemActionPerformed
 
     /**
      * @param args the command line arguments

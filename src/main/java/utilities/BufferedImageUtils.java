@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 public class BufferedImageUtils {
     public static BufferedImage defaultImage() {
-        try (InputStream is = BufferedImageUtils.class.getResourceAsStream("/sampleImage.jpg")) {
+        try (InputStream is = BufferedImageUtils.class.getResourceAsStream("/Comprimidos_1.png")) {
             if (is == null) {
                 System.out.println("Failed to load default image");
                 return null;
