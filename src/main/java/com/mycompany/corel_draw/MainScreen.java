@@ -15,6 +15,7 @@ import types.Orientation;
 import utilities.BufferedImageUtils;
 import view.SaveFile;
 import view.SelectOptions;
+import domain.Mathematic_Erosion;
 
 /**
  *
@@ -256,9 +257,19 @@ public class MainScreen extends javax.swing.JFrame {
         mathMorfologyMenu.setText("MORFOLOGIA MATEMÁTICA");
 
         dilatationMenuItem.setText("Dilatação");
+        dilatationMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dilatationMenuItemActionPerformed(evt);
+            }
+        });
         mathMorfologyMenu.add(dilatationMenuItem);
 
         erosionMenuItem.setText("Erosão");
+        erosionMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                erosionMenuItemActionPerformed(evt);
+            }
+        });
         mathMorfologyMenu.add(erosionMenuItem);
 
         openingMenuItem.setText("Abertura");
@@ -351,15 +362,15 @@ public class MainScreen extends javax.swing.JFrame {
         if (inputImagePanel.image != null) {
             SelectOptions optionsSelector = new SelectOptions("Transladar");
             
+            optionsSelector.xPanel.setVisible(true);
+            optionsSelector.yPanel.setVisible(true);
+            
             optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
                 int[] desiredPosition = {optionsSelector.xSlider.getValue(), optionsSelector.ySlider.getValue()};
                 BufferedImage result = Transform.translate(inputImagePanel.image, desiredPosition);
             
                 outputImagePanel.setImage(result);
             });
-            
-            optionsSelector.xPanel.setVisible(true);
-            optionsSelector.yPanel.setVisible(true);
             optionsSelector.setVisible(true);
         }
     }//GEN-LAST:event_translateMenuItemActionPerformed
@@ -367,12 +378,13 @@ public class MainScreen extends javax.swing.JFrame {
     private void rotateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotateMenuItemActionPerformed
         if (inputImagePanel.image != null) {
             SelectOptions optionsSelector = new SelectOptions("Rotacionar");
+            
+            optionsSelector.degreesPanel.setVisible(true);
+            
             optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
                 BufferedImage result = Transform.rotate(inputImagePanel.image, optionsSelector.degreesSlider.getValue());
                 outputImagePanel.setImage(result);
             });
-            
-            optionsSelector.degreesPanel.setVisible(true);
             optionsSelector.setVisible(true);
         }
     }//GEN-LAST:event_rotateMenuItemActionPerformed
@@ -389,14 +401,6 @@ public class MainScreen extends javax.swing.JFrame {
     private void mirrorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mirrorMenuItemActionPerformed
         if (inputImagePanel.image != null) {
             SelectOptions optionsSelector = new SelectOptions("Espelhar");
-          
-            optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
-                BufferedImage result = Transform.mirror(
-                        inputImagePanel.image,
-                        Orientation.fromString(optionsSelector.choices.getSelectedItem())
-                );
-                outputImagePanel.setImage(result);
-            });
             
             optionsSelector.choicesPanel.setVisible(true);
             optionsSelector.choicesLabel.setText("Orientação:");
@@ -404,6 +408,14 @@ public class MainScreen extends javax.swing.JFrame {
             for (Orientation orientation: Orientation.values()) {
                 optionsSelector.choices.addItem(orientation.label);
             }
+
+            optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
+                BufferedImage result = Transform.mirror(
+                        inputImagePanel.image,
+                        Orientation.fromString(optionsSelector.choices.getSelectedItem())
+                );
+                outputImagePanel.setImage(result);
+            });
             optionsSelector.setVisible(true);
         }
     }//GEN-LAST:event_mirrorMenuItemActionPerformed
@@ -412,6 +424,10 @@ public class MainScreen extends javax.swing.JFrame {
         if (inputImagePanel.image != null) {
             SelectOptions optionsSelector = new SelectOptions("Grayscale");
             
+            optionsSelector.rPanel.setVisible(true);
+            optionsSelector.gPanel.setVisible(true);
+            optionsSelector.bPanel.setVisible(true);
+
             optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
                 BufferedImage result = Filter.grayScale(
                         inputImagePanel.image,
@@ -421,10 +437,6 @@ public class MainScreen extends javax.swing.JFrame {
                 );
                 outputImagePanel.setImage(result);
             });
-            
-            optionsSelector.rPanel.setVisible(true);
-            optionsSelector.gPanel.setVisible(true);
-            optionsSelector.bPanel.setVisible(true);
             optionsSelector.setVisible(true);
         }
     }//GEN-LAST:event_grayscaleMenuItemActionPerformed
@@ -446,7 +458,7 @@ public class MainScreen extends javax.swing.JFrame {
     private void highPassMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highPassMenuItemActionPerformed
         if (inputImagePanel.image != null) {
             SelectOptions optionsSelector = new SelectOptions("Passa Alta");
-            
+
             optionsSelector.addEventListener((java.awt.event.ActionEvent evt1) -> {
                 BufferedImage result = Filter.RobertsHighPass(
                         inputImagePanel.image,
@@ -454,7 +466,7 @@ public class MainScreen extends javax.swing.JFrame {
                 );
                 outputImagePanel.setImage(result);
             });
-            
+
             optionsSelector.xLabel.setText("Limite da borda");
             optionsSelector.xSlider.setMinimum(5);
             optionsSelector.xSlider.setMaximum(100);
@@ -474,16 +486,32 @@ public class MainScreen extends javax.swing.JFrame {
                 );
                 outputImagePanel.setImage(result);
             });
-            
+
             optionsSelector.xLabel.setText("Limite da borda");
             optionsSelector.xSlider.setMinimum(100);
             optionsSelector.xSlider.setMaximum(300);
             optionsSelector.xSlider.setValue(200);
             optionsSelector.xPanel.setVisible(true);
-            
+
             optionsSelector.setVisible(true);
         }
     }//GEN-LAST:event_thresholdMenuItemActionPerformed
+
+
+
+        private void dilatationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dilatationMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            BufferedImage result = Mathematic_Erosion.dilation(inputImagePanel.image);
+            outputImagePanel.setImage(result);
+        }
+    }//GEN-LAST:event_dilatationMenuItemActionPerformed
+
+    private void erosionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_erosionMenuItemActionPerformed
+        if (inputImagePanel.image != null) {
+            BufferedImage result = Mathematic_Erosion.erosion(inputImagePanel.image, 100);
+            outputImagePanel.setImage(result);
+        }
+    }//GEN-LAST:event_erosionMenuItemActionPerformed
 
     private void challengeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_challengeMenuItemActionPerformed
         if (inputImagePanel.image != null) {
