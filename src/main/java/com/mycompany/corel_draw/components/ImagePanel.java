@@ -5,6 +5,7 @@
 package com.mycompany.corel_draw.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,6 +38,7 @@ public class ImagePanel extends JPanel {
     public void setImageFromFile(File file) {
         try {
             this.image = ImageIO.read(file);
+            
             repaint();
             notifyFileSet();
         } catch (IOException ex) {
@@ -56,12 +58,12 @@ public class ImagePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         if (image != null) {
             if (image.getWidth() > image.getHeight()) {
                 int proportionalHeight = Math.round(getWidth() / (image.getWidth() / image.getHeight()));
-
                 g.drawImage(image, 0, Math.round((getHeight() / 2) - (proportionalHeight / 2)), getWidth(), proportionalHeight, this);
             } else {
                 int proportionalWidth = Math.round(getHeight() / (image.getHeight() / image.getWidth()));
